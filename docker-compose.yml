@@ -42,20 +42,21 @@ services:
       - PGID=${PGID}
       - VERSION=docker
     volumes:
-      - /home/ubuntu/plex/library:/config
-      - /home/ubuntu/plex/tvshows:/tv
-      - /home/ubuntu/plex/home_videos:/home_vids
-      - /home/ubuntu/plex/movies:/movies
+      - /home/server/storage/plex:/config
+      - /home/server/media/tv:/tv
+      - /home/server/media/home_videos:/home_vids
+      - /home/server/media/movies:/movies
 
   transmission-openvpn:
     container_name: transmission_vpn
     restart: always
     volumes:
-        - /home/ubuntu/transmission_vpn:/data
+        - /home/server/storage/transmission_vpn:/data
         - /etc/localtime:/etc/localtime:ro
-        - /home/ubuntu/docker/transmission_vpn:/config
-        - /home/ubuntu/plex/tvshows:/tv
-        - /home/ubuntu/plex/movies:/movies
+        - /home/server/storage/transmission_vpn:/config
+        - /home/server/media/tv:/tv
+        - /home/server/media/movies:/movies
+        - /home/server/media/other:/other
     environment:
         - CREATE_TUN_DEVICE=true
         - OPENVPN_PROVIDER=PIA
