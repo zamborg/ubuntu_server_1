@@ -1,12 +1,16 @@
 version: "3.6"
+# Port order goes HOST:CONTAINER
+# HOST port is what port is exposed outside the container (to the network)
+# CONTAINER port is what port from the container will be routed to the HOST.
 services:
   portainer:
     image: portainer/portainer
     container_name: portainer
     restart: always
     command: -H unix:///var/run/docker.sock
+    #port 80 is default HTTP port so we will set portainer to that.
     ports:
-      - "9000:9000"
+      - "80:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${USERDIR}/docker/portainer/data:/data
@@ -14,20 +18,20 @@ services:
     environment:
       - TZ=${TZ}
 
-  organizr:
-    container_name: organizr
-    restart: always
-    image: lsiocommunity/organizr
-    volumes:
-      - ${USERDIR}/docker/organizr:/config
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "80:80"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      
+  # organizr:
+  #   container_name: organizr
+  #   restart: always
+  #   image: lsiocommunity/organizr
+  #   volumes:
+  #     - ${USERDIR}/docker/organizr:/config
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "80:80"
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+
   plex:
     image: linuxserver/plex
     container_name: plex
@@ -42,41 +46,6 @@ services:
       - /home/ubuntu/plex/tvshows:/tv
       - /home/ubuntu/plex/home_videos:/home_vids
       - /home/ubuntu/plex/movies:/movies
-
-#  qbittorrent:
-#    image: linuxserver/qbittorrent
-#    container_name: qbittorrent
-#    network_mode: "service:pia"
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - TZ=${TZ}
-#      - UMASK_SET=022
-#      - WEBUI_PORT=8080
-#    volumes:
-#      - /home/ubuntu/docker:/config
-#      - /home/ubuntu/Downloads:/downloads
-#    ports:
-#      - 6881:6881
-#      - 6881:6881/udp
-#      - 8080:8080
-#    restart: always
-
-#  pia-vpn:
-#    container_name: pia-vpn
-#    image: itsdaspecialk/pia-openvpn
-#    restart: always
-#    cap_add:
-#      - net_admin
-#    dns:
-#      - 209.222.18.222
-#      - 209.222.18.218
-#    ports:
-#      - 9091:9091
-#    environment:
-#      - REGION=US East
-#      - USERNAME=p0554771
-#      - PASSWORD=sj7rktWTra
 
   transmission-openvpn:
     container_name: transmission_vpn
