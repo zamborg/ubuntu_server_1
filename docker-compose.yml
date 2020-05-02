@@ -46,6 +46,7 @@ services:
       - /home/server/media/tv:/tv
       - /home/server/media/home_videos:/home_vids
       - /home/server/media/movies:/movies
+      - /home/server/media/other:/other_videos
 
   transmission-openvpn:
     container_name: transmission_vpn
