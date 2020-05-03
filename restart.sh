@@ -1,3 +1,3 @@
 #!/bin/bash
 docker ps | grep "healthy)" > grep.txt
-python restart_script.py
+python ubuntu_server_1/restart_script.py
