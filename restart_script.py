@@ -2,11 +2,15 @@ import subprocess
 
 # read the `docker ps | grep "healthy)" > grep.txt` report
 with open("grep.txt", "r") as file:
-    raw = file.readlines()[0]
+    raw = file.readlines()
 
-# if 'unhealthy' not in raw:
-#     print("no unhealthy containers")
-#     exit(0)
+if len(raw) != 1:
+    print("something is wrong with grep.txt")
+    exit(1)
+
+if 'unhealthy' not in raw:
+    print("no unhealthy containers")
+    exit(0)
 
 # this means unhealthy is in the file:
 splits = raw.split()
@@ -20,3 +24,5 @@ with open("restart_container.sh", "w") as file:
 
 cmd = "./restart_container.sh"
 subprocess.call(cmd, shell=True)
+
+exit(0)
